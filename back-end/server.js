@@ -5,6 +5,7 @@ require("dotenv").config();
 // Import des routes
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const contactRoutes = require("./routes/contact");
 
 // Création de l'app AVANT tout app.use
 const app = express();
@@ -21,6 +22,8 @@ mongoose
 // Routes
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/contact", contactRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("🚀 Backend VodaPhone avec MVC !");

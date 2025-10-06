@@ -1,0 +1,199 @@
+/* === Style global de la page profil === */
+body {
+  background: #f3f5f8;
+  font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #333;
+}
+
+/* === Container principal === */
+div[style*="maxWidth: 600px"] {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 30px 40px;
+  margin-top: 50px;
+}
+
+/* === Titre profil === */
+h2 {
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+/* === Informations utilisateur === */
+p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #444;
+}
+
+a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* === Boutons généraux === */
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background: #1e40af;
+}
+
+/* === Formulaire d’ajout de contact === */
+form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+form input {
+  flex: 1;
+  min-width: 150px;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+form input:focus {
+  border-color: #2563eb;
+}
+
+/* === Liste des contacts === */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s ease;
+}
+
+li:hover {
+  background: #f1f5f9;
+}
+
+/* === Boutons CRUD === */
+li button {
+  margin-left: 8px;
+  font-size: 13px;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+li button:nth-child(1) {
+  background: #10b981; /* vert (modifier) */
+}
+
+li button:nth-child(1):hover {
+  background: #059669;
+}
+
+li button:nth-child(2) {
+  background: #ef4444; /* rouge (supprimer) */
+}
+
+li button:nth-child(2):hover {
+  background: #dc2626;
+}
+
+/* === Formulaire d’édition === */
+li form {
+  display: flex;
+  flex: 1;
+  gap: 8px;
+}
+
+li form input {
+  flex: 1;
+  min-width: 100px;
+  padding: 6px 8px;
+  font-size: 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}
+
+li form button {
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+/* === Boutons sauvegarde/annulation === */
+li form button[type="submit"] {
+  background: #2563eb;
+}
+
+li form button[type="submit"]:hover {
+  background: #1e3a8a;
+}
+
+li form button[type="button"] {
+  background: #9ca3af;
+}
+
+li form button[type="button"]:hover {
+  background: #6b7280;
+}
+
+/* === Messages === */
+p[style*="padding: 20px"] {
+  text-align: center;
+  color: #555;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 25px 0;
+}
+
+/* === Responsive === */
+@media (max-width: 600px) {
+  div[style*="maxWidth: 600px"] {
+    padding: 20px;
+  }
+
+  form {
+    flex-direction: column;
+  }
+
+  li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  li button {
+    margin-top: 5px;
+  }
+}
