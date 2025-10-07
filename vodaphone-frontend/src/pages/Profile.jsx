@@ -125,9 +125,6 @@ export default function Profile() {
       <div className="profile-header">
         <div className="profile-header-top">
           <h2>Mon profil</h2>
-          <button className="logout-button" onClick={handleLogout}>
-            Déconnexion
-          </button>
         </div>
         <p>
           <b>Email :</b> {user.email}

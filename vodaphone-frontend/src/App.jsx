@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import ChangePassword from "./pages/ChangePassword";
+import "./Nav.css"; // ✅ on importe le fichier CSS
 
 function Nav() {
   const { isLoggedIn, logout } = useContext(AuthContext);
@@ -16,17 +17,17 @@ function Nav() {
   };
 
   return (
-    <nav style={{ padding: 12, borderBottom: "1px solid #ccc" }}>
+    <nav className="nav">
       {isLoggedIn ? (
-        <>
-          <Link to="/profile" style={{ marginRight: 10 }}>Profil</Link>
-          <button onClick={handleLogout}>Déconnexion</button>
-        </>
+        <div className="nav-links">
+          <Link to="/profile" className="nav-link">Profil</Link>
+          <button onClick={handleLogout} className="nav-button">Déconnexion</button>
+        </div>
       ) : (
-        <>
-          <Link to="/register" style={{ marginRight: 10 }}>Inscription</Link>
-          <Link to="/login">Connexion</Link>
-        </>
+        <div className="nav-links">
+          <Link to="/register" className="nav-link">Inscription</Link>
+          <Link to="/login" className="nav-link">Connexion</Link>
+        </div>
       )}
     </nav>
   );
@@ -35,10 +36,7 @@ function Nav() {
 function AppRoutes() {
   return (
     <Routes>
-      {/* 🚀 Redirection automatique de la racine vers /login */}
       <Route path="/" element={<Navigate to="/login" />} />
-
-      {/* Pages principales */}
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<Profile />} />
