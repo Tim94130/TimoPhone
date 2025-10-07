@@ -9,20 +9,18 @@ const contactRoutes = require("./routes/contact");
 
 const app = express();
 
-// ✅ Middleware CORS intelligent avec regex pour Netlify
-const allowedOrigins = [
-  "https://vodaphone.netlify.app",  // ton front en prod
-  "http://localhost:3000",          // ton front en dev local
-  /\.netlify\.app$/                 // autorise aussi les URLs temporaires Netlify (build previews)
-];
-
+/* ✅ Middleware CORS universel compatible Netlify et Render */
 app.use((req, res, next) => {
   const origin = req.headers.origin;
-  const isAllowed = allowedOrigins.some(o =>
-    typeof o === "string" ? o === origin : o.test(origin)
-  );
 
-  if (isAllowed) {
+  // ✅ autorise ton domaine principal et toutes les sous-URLs Netlify
+  const allowed =
+    origin &&
+    (origin === "https://vodaphone.netlify.app" ||
+      origin.endsWith(".netlify.app") ||
+      origin === "http://localhost:3000");
+
+  if (allowed) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
 
@@ -30,8 +28,7 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.setHeader("Access-Control-Allow-Credentials", "true");
 
-  // Log debug (visible dans Render)
-  console.log(`🌍 CORS: ${origin} ${isAllowed ? "✅ autorisé" : "❌ refusé"}`);
+  console.log(`🌍 CORS: ${origin || "inconnue"} ${allowed ? "✅ autorisé" : "❌ refusé"}`);
 
   if (req.method === "OPTIONS") {
     return res.sendStatus(204);
@@ -53,7 +50,6 @@ app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/contact", contactRoutes);
 
-// ✅ Route racine
 app.get("/", (req, res) => {
   res.send("🚀 Backend VodaPhone opérationnel !");
 });
