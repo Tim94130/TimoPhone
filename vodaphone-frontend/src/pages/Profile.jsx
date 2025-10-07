@@ -110,13 +110,7 @@ export default function Profile() {
         err.response?.data?.message || "Erreur lors de la modification.";
       setError(message);
     }
-  };
-
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
+  }
 
   if (!user) return <p style={{ padding: 20 }}>Chargement…</p>;
 
