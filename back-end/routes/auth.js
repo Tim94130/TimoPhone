@@ -15,7 +15,7 @@ router.use(cors({
   credentials: true,
 }));
 
-router.options("*", cors());
+router.options(cors());
 
 router.post("/register", register);
 router.post("/login", login);

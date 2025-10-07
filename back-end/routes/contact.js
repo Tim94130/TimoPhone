@@ -16,7 +16,8 @@ router.use(
   })
 );
 
-router.options("*", cors());
+router.options(cors());
+
 router.use(requireAuth);
 
 
