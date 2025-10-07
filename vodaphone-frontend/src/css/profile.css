@@ -1,46 +1,86 @@
-/* === Style global de la page profil === */
+/* === Style global page Profil === */
 body {
   background: #f3f5f8;
   font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: #333;
+  margin: 0;
+  padding: 0;
 }
 
-/* === Container principal === */
-div[style*="maxWidth: 600px"] {
+/* === Conteneur principal === */
+.profile-page {
+  max-width: 600px;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   padding: 30px 40px;
-  margin-top: 50px;
+  margin: 60px auto;
 }
 
-/* === Titre profil === */
-h2 {
+/* === En-tête profil === */
+.profile-header {
   text-align: center;
+  margin-bottom: 25px;
+}
+
+.profile-header h2 {
   color: #1f2937;
-  margin-bottom: 15px;
-  font-size: 24px;
+  font-size: 26px;
+  margin-bottom: 10px;
 }
 
-/* === Informations utilisateur === */
-p {
+.profile-header p {
   font-size: 15px;
-  line-height: 1.6;
   color: #444;
+  margin: 4px 0;
 }
 
-a {
+.profile-header a {
   color: #2563eb;
   text-decoration: none;
   font-weight: 500;
 }
 
-a:hover {
+.profile-header a:hover {
   text-decoration: underline;
 }
 
-/* === Boutons généraux === */
-button {
+/* === Titres de sections === */
+.profile-page h3 {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: #1f2937;
+  font-size: 18px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 5px;
+}
+
+/* === Formulaire d’ajout et d’édition de contact === */
+.profile-page form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.profile-page input {
+  flex: 1;
+  min-width: 150px;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-page input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* === Boutons === */
+.profile-page button {
   background: #2563eb;
   color: white;
   border: none;
@@ -49,129 +89,165 @@ button {
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
 
-button:hover {
+.profile-page button:hover {
   background: #1e40af;
+  transform: scale(1.02);
 }
 
-/* === Formulaire d’ajout de contact === */
-form {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-form input {
-  flex: 1;
-  min-width: 150px;
-  padding: 8px 10px;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.2s ease;
-}
-
-form input:focus {
-  border-color: #2563eb;
-}
-
-/* === Liste des contacts === */
-ul {
+/* === Liste des contacts (alignement stable) === */
+.contact-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-li {
+.contact-list li {
   background: #f9fafb;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   padding: 10px 15px;
   margin-bottom: 10px;
+
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+
   transition: background 0.2s ease;
+  gap: 10px;
 }
 
-li:hover {
+.contact-list li:hover {
   background: #f1f5f9;
 }
 
+/* ✅ Zone gauche : infos contact */
+.contact-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #333;
+  white-space: nowrap; /* Empêche les retours à la ligne */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Coupe si trop long */
+}
+
+/* ✅ Zone droite : boutons */
+.contact-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0; /* Empêche les boutons de se décaler */
+}
+
 /* === Boutons CRUD === */
-li button {
-  margin-left: 8px;
-  font-size: 13px;
+.contact-actions button {
   padding: 5px 10px;
   border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
 
-li button:nth-child(1) {
-  background: #10b981; /* vert (modifier) */
+.contact-actions button:hover {
+  transform: scale(1.05);
 }
 
-li button:nth-child(1):hover {
+/* Couleurs */
+.contact-actions .edit {
+  background: #10b981;
+  color: white;
+}
+
+.contact-actions .edit:hover {
   background: #059669;
 }
 
-li button:nth-child(2) {
-  background: #ef4444; /* rouge (supprimer) */
+.contact-actions .delete {
+  background: #ef4444;
+  color: white;
 }
 
-li button:nth-child(2):hover {
+.contact-actions .delete:hover {
   background: #dc2626;
 }
 
-/* === Formulaire d’édition === */
-li form {
-  display: flex;
-  flex: 1;
-  gap: 8px;
+/* === Responsive === */
+@media (max-width: 600px) {
+  .contact-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .contact-info {
+    white-space: normal;
+  }
+
+  .contact-actions {
+    margin-top: 8px;
+  }
 }
 
-li form input {
-  flex: 1;
-  min-width: 100px;
-  padding: 6px 8px;
+
+/* === Boutons CRUD === */
+.contact-list li button {
+  margin-left: 6px;
   font-size: 13px;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background 0.2s ease;
 }
 
-li form button {
-  padding: 6px 10px;
-  font-size: 14px;
-}
-
-/* === Boutons sauvegarde/annulation === */
-li form button[type="submit"] {
+/* 💾 (sauvegarde) */
+.contact-list li button[type="submit"],
+.contact-list li button.save {
   background: #2563eb;
 }
 
-li form button[type="submit"]:hover {
+.contact-list li button.save:hover {
   background: #1e3a8a;
 }
 
-li form button[type="button"] {
+/* ✏️ (modifier) */
+.contact-list li button.edit {
+  background: #10b981;
+}
+
+.contact-list li button.edit:hover {
+  background: #059669;
+}
+
+/* 🗑️ (supprimer) */
+.contact-list li button.delete {
+  background: #ef4444;
+}
+
+.contact-list li button.delete:hover {
+  background: #dc2626;
+}
+
+/* ❌ (annuler) */
+.contact-list li button.cancel {
   background: #9ca3af;
 }
 
-li form button[type="button"]:hover {
+.contact-list li button.cancel:hover {
   background: #6b7280;
 }
 
-/* === Messages === */
-p[style*="padding: 20px"] {
+/* === Message d’erreur === */
+.error-message {
+  color: #dc2626;
   text-align: center;
-  color: #555;
+  margin-bottom: 15px;
+  font-size: 14px;
 }
 
+/* === Ligne de séparation === */
 hr {
   border: none;
   border-top: 1px solid #e5e7eb;
@@ -180,20 +256,21 @@ hr {
 
 /* === Responsive === */
 @media (max-width: 600px) {
-  div[style*="maxWidth: 600px"] {
-    padding: 20px;
+  .profile-page {
+    margin: 40px 20px;
+    padding: 25px 20px;
   }
 
-  form {
+  .profile-page form {
     flex-direction: column;
   }
 
-  li {
+  .contact-list li {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  li button {
+  .contact-list li button {
     margin-top: 5px;
   }
 }

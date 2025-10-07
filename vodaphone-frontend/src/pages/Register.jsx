@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api";
+import "../css/register.css";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -13,23 +14,22 @@ export default function Register() {
     setError("");
     try {
       await api.post("/auth/register", { email, password });
-      navigate("/login"); 
+      navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Erreur d'inscription");
     }
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "40px auto" }}>
+    <div className="register-container">
       <h2>Inscription</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Adresse e-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          style={{ display: "block", marginBottom: 10, width: "100%" }}
         />
         <input
           type="password"
@@ -37,12 +37,13 @@ export default function Register() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={{ display: "block", marginBottom: 10, width: "100%" }}
         />
         <button type="submit">S'inscrire</button>
       </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <p style={{ marginTop: 10 }}>
+
+      {error && <p className="error-message">{error}</p>}
+
+      <p>
         Déjà un compte ? <Link to="/login">Se connecter</Link>
       </p>
     </div>

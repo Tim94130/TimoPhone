@@ -1,4 +1,4 @@
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Routes, Route, Link, useNavigate, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthProvider, AuthContext } from "./AuthContext";
 import Register from "./pages/Register";
@@ -17,7 +17,6 @@ function Nav() {
 
   return (
     <nav style={{ padding: 12, borderBottom: "1px solid #ccc" }}>
-      <Link to="/" style={{ marginRight: 10 }}>Accueil</Link>
       {isLoggedIn ? (
         <>
           <Link to="/profile" style={{ marginRight: 10 }}>Profil</Link>
@@ -36,7 +35,10 @@ function Nav() {
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<div style={{ padding: 20 }}>Bienvenue sur VodaPhone 🚀</div>} />
+      {/* 🚀 Redirection automatique de la racine vers /login */}
+      <Route path="/" element={<Navigate to="/login" />} />
+
+      {/* Pages principales */}
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<Profile />} />

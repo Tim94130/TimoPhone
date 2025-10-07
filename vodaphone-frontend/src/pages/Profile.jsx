@@ -8,12 +8,11 @@ export default function Profile() {
   const [contacts, setContacts] = useState([]);
   const [newContact, setNewContact] = useState({ firstName: "", lastName: "", phone: "" });
   const [editContact, setEditContact] = useState(null);
-  const [error, setError] = useState(""); // 🔹 affichage des erreurs
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
 
-  // ✅ Récupération du profil utilisateur
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -32,7 +31,6 @@ export default function Profile() {
     fetchProfile();
   }, [navigate, token]);
 
-  // ✅ Récupération des contacts
   const fetchContacts = async () => {
     try {
       const res = await api.get("/contact", {
@@ -48,15 +46,12 @@ export default function Profile() {
     if (token) fetchContacts();
   }, [token]);
 
-  // ✅ Vérifie que le numéro de téléphone est valide
   const validatePhone = (phone) => /^\d{10}$/.test(phone);
 
-  // ✅ Ajout d’un contact
   const handleAddContact = async (e) => {
     e.preventDefault();
     setError("");
 
-    // Validation côté front
     if (!validatePhone(newContact.phone)) {
       setError("Le numéro de téléphone doit contenir exactement 10 chiffres.");
       return;
@@ -74,7 +69,6 @@ export default function Profile() {
     }
   };
 
-  // ✅ Suppression d’un contact
   const handleDelete = async (id) => {
     setError("");
     try {
@@ -87,7 +81,6 @@ export default function Profile() {
     }
   };
 
-  // ✅ Édition d’un contact
   const handleEdit = async (e) => {
     e.preventDefault();
     setError("");
@@ -109,27 +102,35 @@ export default function Profile() {
     }
   };
 
-  // ✅ Déconnexion
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
 
-  // ✅ Loading
+
   if (!user) return <p style={{ padding: 20 }}>Chargement…</p>;
 
   return (
     <div className="profile-page">
       <div className="profile-header">
-        <h2>Mon profil</h2>
-        <p><b>Email :</b> {user.email}</p>
-        <p><b>Créé le :</b> {new Date(user.createdAt).toLocaleString()}</p>
+        <div className="profile-header-top">
+          <h2>Mon profil</h2>
+          <button className="logout-button" onClick={handleLogout}>
+            Déconnexion
+          </button>
+        </div>
+        <p>
+          <b>Email :</b> {user.email}
+        </p>
+        <p>
+          <b>Créé le :</b> {new Date(user.createdAt).toLocaleString()}
+        </p>
         <Link to="/password">Changer mon mot de passe</Link>
       </div>
 
       <hr />
 
-      {/* 🔹 Affichage des erreurs */}
       {error && <p className="error-message">{error}</p>}
 
       {/* 🔹 Formulaire d’ajout de contact */}
@@ -154,7 +155,7 @@ export default function Profile() {
           placeholder="Téléphone (10 chiffres)"
           value={newContact.phone}
           onChange={(e) => {
-            const val = e.target.value.replace(/\D/g, ""); // uniquement chiffres
+            const val = e.target.value.replace(/\D/g, "");
             if (val.length <= 10) setNewContact({ ...newContact, phone: val });
           }}
           maxLength="10"
@@ -176,31 +177,52 @@ export default function Profile() {
                   <input
                     type="text"
                     value={editContact.firstName}
-                    onChange={(e) => setEditContact({ ...editContact, firstName: e.target.value })}
+                    onChange={(e) =>
+                      setEditContact({ ...editContact, firstName: e.target.value })
+                    }
                   />
                   <input
                     type="text"
                     value={editContact.lastName}
-                    onChange={(e) => setEditContact({ ...editContact, lastName: e.target.value })}
+                    onChange={(e) =>
+                      setEditContact({ ...editContact, lastName: e.target.value })
+                    }
                   />
                   <input
                     type="tel"
                     value={editContact.phone}
                     onChange={(e) => {
                       const val = e.target.value.replace(/\D/g, "");
-                      if (val.length <= 10) setEditContact({ ...editContact, phone: val });
+                      if (val.length <= 10)
+                        setEditContact({ ...editContact, phone: val });
                     }}
                     maxLength="10"
                     required
                   />
-                  <button type="submit">💾</button>
-                  <button type="button" onClick={() => setEditContact(null)}>❌</button>
+                  <button type="submit" className="save">
+                    💾
+                  </button>
+                  <button
+                    type="button"
+                    className="cancel"
+                    onClick={() => setEditContact(null)}
+                  >
+                    ❌
+                  </button>
                 </form>
               ) : (
                 <>
-                  {c.firstName} {c.lastName} — {c.phone}{" "}
-                  <button onClick={() => setEditContact(c)}>✏️</button>{" "}
-                  <button onClick={() => handleDelete(c._id)}>🗑️</button>
+                  <div className="contact-info">
+                    {c.firstName} {c.lastName} — {c.phone}
+                  </div>
+                  <div className="contact-actions">
+                    <button className="edit" onClick={() => setEditContact(c)}>
+                      ✏️
+                    </button>
+                    <button className="delete" onClick={() => handleDelete(c._id)}>
+                      🗑️
+                    </button>
+                  </div>
                 </>
               )}
             </li>
