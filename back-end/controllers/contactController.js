@@ -36,7 +36,7 @@ exports.createContact = async (req, res) => {
 exports.updateContact = async (req, res) => {
   try {
     const updated = await Contact.findOneAndUpdate(
-      { _id: req.params.id, userId: req.userId }, // on vérifie bien que le contact appartient à l'utilisateur
+      { _id: req.params.id, userId: req.userId }, 
       req.body,
       { new: true }
     );
