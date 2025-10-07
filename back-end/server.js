@@ -1,8 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
 const dotenv = require("dotenv");
-
 dotenv.config();
 
 const authRoutes = require("./routes/auth");
@@ -11,20 +9,34 @@ const contactRoutes = require("./routes/contact");
 
 const app = express();
 
-// ✅ Middleware CORS global
-app.use(cors({
-  origin: [
-    "https://vodaphone.netlify.app", // 🔹 domaine Netlify final
-    "http://localhost:3000",         // 🔹 pour le dev local
-  ],
-  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
+// ✅ Middleware CORS intelligent avec regex pour Netlify
+const allowedOrigins = [
+  "https://vodaphone.netlify.app",  // ton front en prod
+  "http://localhost:3000",          // ton front en dev local
+  /\.netlify\.app$/                 // autorise aussi les URLs temporaires Netlify (build previews)
+];
 
-
-// 🧠 Log pour debug : voir d’où vient la requête
 app.use((req, res, next) => {
-  console.log("🌍 Requête reçue depuis :", req.headers.origin);
+  const origin = req.headers.origin;
+  const isAllowed = allowedOrigins.some(o =>
+    typeof o === "string" ? o === origin : o.test(origin)
+  );
+
+  if (isAllowed) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+
+  // Log debug (visible dans Render)
+  console.log(`🌍 CORS: ${origin} ${isAllowed ? "✅ autorisé" : "❌ refusé"}`);
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
   next();
 });
 
@@ -36,16 +48,15 @@ mongoose
   .then(() => console.log("✅ Connecté à MongoDB"))
   .catch((err) => console.error("❌ Erreur MongoDB:", err));
 
-// ✅ Routes principales
+// ✅ Routes
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
-app.use("/contact", contactRoutes); 
+app.use("/contact", contactRoutes);
 
 // ✅ Route racine
 app.get("/", (req, res) => {
   res.send("🚀 Backend VodaPhone opérationnel !");
 });
-  
-// ✅ Lancement serveur
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Serveur sur http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`🌐 Serveur lancé sur le port ${PORT}`));
