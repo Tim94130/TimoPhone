@@ -10,7 +10,6 @@ export default function Register() {
   const [strength, setStrength] = useState(0);
   const navigate = useNavigate();
 
-  // 🔍 Vérifie la complexité du mot de passe et calcule un score
   const checkPasswordStrength = (pwd) => {
     let score = 0;
     if (pwd.length >= 8) score++;
@@ -36,6 +35,22 @@ export default function Register() {
       navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Erreur d'inscription");
+    }
+  };
+
+  const getStrengthColor = () => {
+    switch (strength) {
+      case 0:
+      case 1:
+        return "#dc2626"; // rouge
+      case 2:
+      case 3:
+        return "#f59e0b"; // orange
+      case 4:
+      case 5:
+        return "#16a34a"; // vert
+      default:
+        return "#e5e7eb"; // gris
     }
   };
 
@@ -66,7 +81,8 @@ export default function Register() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <div className="password-field">
+
+        <div className="password-wrapper">
           <input
             type="password"
             placeholder="Mot de passe"
@@ -78,19 +94,26 @@ export default function Register() {
             required
           />
           {password && (
-            <div className="password-strength">
-              <div
-                className="strength-bar"
-                style={{ width: `${(strength / 5) * 100}%` }}
-              ></div>
-            </div>
-          )}
-          {password && (
-            <small className={`strength-text strength-${getStrengthLabel().toLowerCase()}`}>
-              Force : {getStrengthLabel()}
-            </small>
+            <>
+              <div className="strength-bar">
+                <div
+                  className="strength-fill"
+                  style={{
+                    width: `${(strength / 5) * 100}%`,
+                    backgroundColor: getStrengthColor(),
+                  }}
+                ></div>
+              </div>
+              <span
+                className="strength-label"
+                style={{ color: getStrengthColor() }}
+              >
+                Force : {getStrengthLabel()}
+              </span>
+            </>
           )}
         </div>
+
         <button type="submit">S'inscrire</button>
       </form>
 
