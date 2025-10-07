@@ -5,7 +5,7 @@ const requireAuth = require("../middleware/requireAuth");
 const contactController = require("../controllers/contactController");
 
 router.use(cors({
-  origin: "http://localhost:3000",
+  origin: "https://68e54249f4b898654b3710e4--vodaphone.netlify.app",
   methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
