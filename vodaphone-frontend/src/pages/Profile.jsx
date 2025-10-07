@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api";
 import "../css/profile.css";
@@ -6,7 +6,11 @@ import "../css/profile.css";
 export default function Profile() {
   const [user, setUser] = useState(null);
   const [contacts, setContacts] = useState([]);
-  const [newContact, setNewContact] = useState({ firstName: "", lastName: "", phone: "" });
+  const [newContact, setNewContact] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+  });
   const [editContact, setEditContact] = useState(null);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -31,7 +35,8 @@ export default function Profile() {
     fetchProfile();
   }, [navigate, token]);
 
-  const fetchContacts = async () => {
+
+  const fetchContacts = useCallback(async () => {
     try {
       const res = await api.get("/contact", {
         headers: { Authorization: `Bearer ${token}` },
@@ -40,13 +45,15 @@ export default function Profile() {
     } catch (err) {
       console.error("Erreur chargement contacts :", err);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     if (token) fetchContacts();
-  }, [token]);
+  }, [token, fetchContacts]);
+
 
   const validatePhone = (phone) => /^\d{10}$/.test(phone);
+
 
   const handleAddContact = async (e) => {
     e.preventDefault();
@@ -64,7 +71,8 @@ export default function Profile() {
       setNewContact({ firstName: "", lastName: "", phone: "" });
       fetchContacts();
     } catch (err) {
-      const message = err.response?.data?.message || "Erreur lors de l’ajout du contact.";
+      const message =
+        err.response?.data?.message || "Erreur lors de l’ajout du contact.";
       setError(message);
     }
   };
@@ -80,6 +88,7 @@ export default function Profile() {
       setError("Erreur lors de la suppression du contact.");
     }
   };
+
 
   const handleEdit = async (e) => {
     e.preventDefault();
@@ -97,7 +106,8 @@ export default function Profile() {
       setEditContact(null);
       fetchContacts();
     } catch (err) {
-      const message = err.response?.data?.message || "Erreur lors de la modification.";
+      const message =
+        err.response?.data?.message || "Erreur lors de la modification.";
       setError(message);
     }
   };
@@ -107,7 +117,6 @@ export default function Profile() {
     localStorage.removeItem("token");
     navigate("/login");
   };
-
 
   if (!user) return <p style={{ padding: 20 }}>Chargement…</p>;
 
@@ -140,14 +149,18 @@ export default function Profile() {
           type="text"
           placeholder="Prénom"
           value={newContact.firstName}
-          onChange={(e) => setNewContact({ ...newContact, firstName: e.target.value })}
+          onChange={(e) =>
+            setNewContact({ ...newContact, firstName: e.target.value })
+          }
           required
         />
         <input
           type="text"
           placeholder="Nom"
           value={newContact.lastName}
-          onChange={(e) => setNewContact({ ...newContact, lastName: e.target.value })}
+          onChange={(e) =>
+            setNewContact({ ...newContact, lastName: e.target.value })
+          }
           required
         />
         <input
@@ -156,7 +169,8 @@ export default function Profile() {
           value={newContact.phone}
           onChange={(e) => {
             const val = e.target.value.replace(/\D/g, "");
-            if (val.length <= 10) setNewContact({ ...newContact, phone: val });
+            if (val.length <= 10)
+              setNewContact({ ...newContact, phone: val });
           }}
           maxLength="10"
           required
@@ -178,14 +192,20 @@ export default function Profile() {
                     type="text"
                     value={editContact.firstName}
                     onChange={(e) =>
-                      setEditContact({ ...editContact, firstName: e.target.value })
+                      setEditContact({
+                        ...editContact,
+                        firstName: e.target.value,
+                      })
                     }
                   />
                   <input
                     type="text"
                     value={editContact.lastName}
                     onChange={(e) =>
-                      setEditContact({ ...editContact, lastName: e.target.value })
+                      setEditContact({
+                        ...editContact,
+                        lastName: e.target.value,
+                      })
                     }
                   />
                   <input
@@ -216,10 +236,16 @@ export default function Profile() {
                     {c.firstName} {c.lastName} — {c.phone}
                   </div>
                   <div className="contact-actions">
-                    <button className="edit" onClick={() => setEditContact(c)}>
+                    <button
+                      className="edit"
+                      onClick={() => setEditContact(c)}
+                    >
                       ✏️
                     </button>
-                    <button className="delete" onClick={() => handleDelete(c._id)}>
+                    <button
+                      className="delete"
+                      onClick={() => handleDelete(c._id)}
+                    >
                       🗑️
                     </button>
                   </div>
