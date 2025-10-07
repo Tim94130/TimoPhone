@@ -14,7 +14,7 @@ const app = express();
 // ✅ Middleware CORS global
 app.use(cors({
   origin: [
-    "https://vodaphone.netlify.app", // 🔹 domaine Netlify final
+    "https://timophone.onrender.com", // 🔹 domaine Netlify final
     "http://localhost:3000",         // 🔹 pour le dev local
   ],
   methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
