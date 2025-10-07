@@ -5,7 +5,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import ChangePassword from "./pages/ChangePassword";
-import "./Nav.css"; // ✅ on importe le fichier CSS
+import "./nav.css"; // ✅ on importe le fichier CSS
 
 function Nav() {
   const { isLoggedIn, logout } = useContext(AuthContext);
