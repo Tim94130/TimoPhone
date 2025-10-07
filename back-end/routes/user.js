@@ -5,14 +5,19 @@ const requireAuth = require("../middleware/requireAuth");
 
 const router = express.Router();
 
+router.use(requireAuth);
 router.use(cors({
-  origin: "https://68e54249f4b898654b3710e4--vodaphone.netlify.app",
+  origin: [
+    "https://vodaphone.netlify.app", // ton front en production
+    /\.netlify\.app$/,                // toutes les sous-URLs Netlify (prévisualisations)
+    "http://localhost:3000"           // dev local
+  ],
   methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
 }));
 
-router.use(requireAuth);
-
+router.options("*", cors());
 router.get("/me", getProfile);
 router.patch("/password", updatePassword);
 
