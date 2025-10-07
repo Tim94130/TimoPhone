@@ -21,8 +21,6 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
-// ✅ Autoriser explicitement les requêtes OPTIONS (prévols CORS)
-app.options("*", cors());
 
 // 🧠 Log pour debug : voir d’où vient la requête
 app.use((req, res, next) => {
