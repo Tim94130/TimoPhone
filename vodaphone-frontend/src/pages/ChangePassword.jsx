@@ -7,9 +7,26 @@ export default function ChangePassword() {
   const [msg, setMsg] = useState("");
   const [err, setErr] = useState("");
 
+ 
+  const strongPasswordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMsg(""); setErr("");
+    setMsg("");
+    setErr("");
+
+    
+    if (newPassword.length < 8) {
+      return setErr("Le mot de passe doit contenir au moins 8 caractères.");
+    }
+
+    if (!strongPasswordRegex.test(newPassword)) {
+      return setErr(
+        "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial."
+      );
+    }
+
     try {
       const token = localStorage.getItem("token");
       await api.patch(
@@ -18,9 +35,10 @@ export default function ChangePassword() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setMsg("Mot de passe mis à jour !");
-      setOldPassword(""); setNewPassword("");
+      setOldPassword("");
+      setNewPassword("");
     } catch (error) {
-      setErr(error.response?.data?.message || "Erreur");
+      setErr(error.response?.data?.message || "Erreur serveur");
     }
   };
 

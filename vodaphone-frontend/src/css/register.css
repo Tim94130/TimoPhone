@@ -1,104 +1,49 @@
-    /* === Style global page Register === */
-body {
-  background: #f3f5f8;
-  font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  color: #333;
-  margin: 0;
-  padding: 0;
-}
-
-/* === Conteneur principal === */
-.register-container {
-  max-width: 400px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  padding: 30px 40px;
-  margin: 80px auto;
-}
-
-/* === Titre === */
-.register-container h2 {
-  text-align: center;
-  color: #1f2937;
-  margin-bottom: 25px;
-  font-size: 24px;
-}
-
-/* === Formulaire === */
-.register-container form {
+/* === Barre de force du mot de passe === */
+.password-field {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 5px;
 }
 
-/* === Champs === */
-.register-container input {
-  padding: 10px 12px;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+.password-strength {
+  height: 6px;
+  width: 100%;
+  background-color: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
 }
 
-.register-container input:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+.strength-bar {
+  height: 100%;
+  background-color: #dc2626;
+  transition: width 0.3s ease, background-color 0.3s ease;
 }
 
-/* === Bouton principal === */
-.register-container button {
-  background: #2563eb;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 15px;
-  transition: background 0.2s ease, transform 0.1s ease;
+.strength-text {
+  font-size: 13px;
+  margin-top: 3px;
 }
 
-.register-container button:hover {
-  background: #1e40af;
-  transform: scale(1.02);
+.strength-faible .strength-bar {
+  background-color: #dc2626;
 }
 
-/* === Message d'erreur === */
-.register-container .error-message {
+.strength-moyen .strength-bar {
+  background-color: #f59e0b;
+}
+
+.strength-fort .strength-bar {
+  background-color: #16a34a;
+}
+
+.strength-faible {
   color: #dc2626;
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
 }
 
-/* === Lien vers la connexion === */
-.register-container p {
-  text-align: center;
-  font-size: 14px;
-  color: #555;
-  margin-top: 20px;
+.strength-moyen {
+  color: #f59e0b;
 }
 
-.register-container a {
-  color: #2563eb;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.register-container a:hover {
-  text-decoration: underline;
-}
-
-/* === Responsive === */
-@media (max-width: 600px) {
-  .register-container {
-    margin: 50px 20px;
-    padding: 25px 20px;
-  }
-
-  .register-container h2 {
-    font-size: 20px;
-  }
+.strength-fort {
+  color: #16a34a;
 }

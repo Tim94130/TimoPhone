@@ -6,8 +6,24 @@ exports.register = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+
     if (!email || !password) {
       return res.status(400).json({ message: "Email et mot de passe obligatoires" });
+    }
+
+  
+    if (password.length < 8) {
+      return res.status(400).json({ message: "Le mot de passe doit contenir au moins 8 caractères" });
+    }
+
+   
+    const strongPasswordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!strongPasswordRegex.test(password)) {
+      return res.status(400).json({
+        message:
+          "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial",
+      });
     }
 
     const existingUser = await User.findOne({ email });
@@ -15,13 +31,16 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: "Email déjà utilisé" });
     }
 
+   
     const hashedPassword = await bcrypt.hash(password, 10);
 
+   
     const newUser = new User({ email, password: hashedPassword });
     await newUser.save();
 
     res.status(201).json({ message: "Utilisateur créé avec succès" });
   } catch (error) {
+    console.error("Erreur register:", error);
     res.status(500).json({ error: error.message });
   }
 };
